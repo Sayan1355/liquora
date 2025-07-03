@@ -23,30 +23,42 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const decorRef = useRef<HTMLDivElement>(null);
 
   const filteredData = alcoholData.filter((item) => {
     const matchesCategory = item.category === category;
     const matchesSearch = searchTerm === '' || 
       item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.ingredients.some(ing => ing.toLowerCase().includes(searchTerm.toLowerCase()));
+      item.ingredients.some(ing => ing.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.brand && item.brand.toLowerCase().includes(searchTerm.toLowerCase()));
     
     return matchesCategory && matchesSearch;
   });
 
   useEffect(() => {
-    if (!titleRef.current || !gridRef.current) return;
+    if (!titleRef.current || !gridRef.current || !decorRef.current) return;
 
-    // Section title animation
+    // Enhanced section title animation with 3D effects
     gsap.fromTo(
       titleRef.current,
-      { opacity: 0, x: -100, rotateX: -90 },
+      { 
+        opacity: 0, 
+        x: -200, 
+        rotateX: -90,
+        rotateY: 45,
+        scale: 0.5,
+        filter: "blur(20px)"
+      },
       {
         opacity: 1,
         x: 0,
         rotateX: 0,
-        duration: 1,
-        ease: "power3.out",
+        rotateY: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        duration: 1.5,
+        ease: "power4.out",
         scrollTrigger: {
           trigger: titleRef.current,
           start: "top 80%",
@@ -56,18 +68,60 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
       }
     );
 
-    // Grid animation
+    // Decorative elements animation
+    gsap.fromTo(
+      decorRef.current.children,
+      { 
+        opacity: 0, 
+        scale: 0,
+        rotation: -180,
+        x: "random(-100, 100)",
+        y: "random(-50, 50)"
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        x: 0,
+        y: 0,
+        duration: 1.2,
+        ease: "elastic.out(1, 0.3)",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: decorRef.current,
+          start: "top 85%",
+          end: "bottom 15%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Enhanced grid animation with morphing effects
     gsap.fromTo(
       gridRef.current.children,
-      { opacity: 0, y: 100, scale: 0.8, rotateY: -45 },
+      { 
+        opacity: 0, 
+        y: 150, 
+        scale: 0.6, 
+        rotateY: -90,
+        rotateX: 45,
+        filter: "blur(10px)",
+        transformOrigin: "center bottom"
+      },
       {
         opacity: 1,
         y: 0,
         scale: 1,
         rotateY: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        stagger: 0.1,
+        rotateX: 0,
+        filter: "blur(0px)",
+        duration: 1.2,
+        ease: "power3.out",
+        stagger: {
+          amount: 0.8,
+          grid: "auto",
+          from: "center"
+        },
         scrollTrigger: {
           trigger: gridRef.current,
           start: "top 85%",
@@ -77,14 +131,36 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
       }
     );
 
-    // Active section highlight
+    // Continuous floating animation for active sections
     if (isActive) {
       gsap.to(sectionRef.current, {
         scale: 1.02,
-        duration: 0.5,
+        rotateY: 2,
+        boxShadow: "0 40px 100px rgba(245, 158, 11, 0.3)",
+        duration: 0.8,
         ease: "power2.out"
       });
+
+      // Pulsing glow effect
+      gsap.to(sectionRef.current, {
+        boxShadow: "0 40px 120px rgba(245, 158, 11, 0.5)",
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power2.inOut"
+      });
     }
+
+    // Parallax effect for the section
+    gsap.to(sectionRef.current, {
+      y: -50,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1
+      }
+    });
 
   }, [isActive, filteredData.length]);
 
@@ -100,12 +176,12 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
       'Whiskey': '🥃',
       'Scotch': '🥃',
       'Bourbon': '🥃',
-      'Irish Whiskey': '🥃',
+      'Irish Whiskey': '🍀',
       'Brandy': '🍸',
       'Rum': '🍹',
       'Gin': '🍸',
-      'Tequila': '🍹',
-      'Liqueurs': '🍸'
+      'Tequila': '🌵',
+      'Liqueurs': '🍷'
     };
     return emojiMap[cat] || '🍷';
   };
@@ -114,34 +190,58 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
     <div 
       ref={sectionRef}
       id={category.toLowerCase()}
-      className={`mb-20 ${isActive ? 'ring-2 ring-amber-500/50 rounded-3xl p-8' : ''}`}
+      className={`relative mb-32 overflow-hidden ${isActive ? 'ring-4 ring-amber-400/40 rounded-3xl p-12 bg-gradient-to-br from-amber-900/10 to-orange-900/5' : ''}`}
     >
-      <div className="text-center mb-12">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-1 bg-gradient-to-r from-transparent via-amber-500/30 to-transparent"></div>
+      </div>
+
+      <div className="text-center mb-16 relative z-10">
+        {/* Decorative elements */}
+        <div ref={decorRef} className="flex justify-center items-center gap-8 mb-8">
+          <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+          <div className="w-1 h-1 bg-amber-300 rounded-full"></div>
+          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+        </div>
+
         <h2
           ref={titleRef}
-          className="text-5xl md:text-6xl font-black mb-4 flex items-center justify-center gap-4"
+          className="text-6xl md:text-8xl font-black mb-6 flex items-center justify-center gap-6 perspective-1000"
         >
-          <span className="text-6xl">{getCategoryEmoji(category)}</span>
-          <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+          <span className="text-8xl md:text-9xl animate-pulse filter drop-shadow-2xl">
+            {getCategoryEmoji(category)}
+          </span>
+          <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-300 bg-clip-text text-transparent drop-shadow-2xl">
             {category.toUpperCase()}
           </span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-amber-600 mx-auto mb-4"></div>
-        <p className="text-gray-400 text-lg">
-          {filteredData.length} premium {category.toLowerCase()} varieties
+        
+        <div className="flex justify-center items-center gap-4 mb-6">
+          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+          <div className="w-4 h-4 bg-amber-500 rounded-full animate-spin"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+        </div>
+        
+        <p className="text-amber-200 text-xl font-light tracking-wider">
+          {filteredData.length} premium varieties | Authentic pricing | Real images
         </p>
       </div>
 
       {filteredData.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="text-6xl mb-4">🔍</div>
-          <h3 className="text-2xl font-bold text-white mb-2">No {category} found</h3>
-          <p className="text-gray-400">Try adjusting your search criteria</p>
+        <div className="text-center py-32 relative z-10">
+          <div className="text-8xl mb-8 animate-bounce">🔍</div>
+          <h3 className="text-4xl font-bold text-white mb-4">No {category} found</h3>
+          <p className="text-amber-400 text-xl">Try adjusting your search criteria</p>
         </div>
       ) : (
         <div 
           ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 relative z-10"
         >
           {filteredData.map((item, itemIndex) => (
             <AlcoholCard 
