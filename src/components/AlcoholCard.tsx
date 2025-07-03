@@ -69,7 +69,7 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
       rotateY: 8,
       rotateX: 5,
       z: 100,
-      boxShadow: "0 50px 100px rgba(245, 158, 11, 0.6), 0 0 50px rgba(245, 158, 11, 0.3)",
+      boxShadow: "0 50px 100px rgba(180, 83, 9, 0.6), 0 0 50px rgba(180, 83, 9, 0.3)",
       duration: 0.5,
       ease: "power3.out",
     })
@@ -82,8 +82,8 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
     }, 0)
     .to(priceRef.current, {
       scale: 1.2,
-      color: "#fbbf24",
-      textShadow: "0 0 30px rgba(251, 191, 36, 1), 0 0 60px rgba(251, 191, 36, 0.5)",
+      color: "#f59e0b",
+      textShadow: "0 0 30px rgba(245, 158, 11, 1), 0 0 60px rgba(245, 158, 11, 0.5)",
       duration: 0.4,
       ease: "power2.out",
     }, 0.1)
@@ -133,7 +133,7 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
     }, 0)
     .to(priceRef.current, {
       scale: 1,
-      color: "#fbbf24",
+      color: "#f59e0b",
       textShadow: "none",
       duration: 0.3,
       ease: "power2.out",
@@ -165,7 +165,7 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
   };
 
   const getPriceColor = (price: number) => {
-    if (price > 5000) return 'text-purple-400';
+    if (price > 5000) return 'text-yellow-400';
     if (price > 2000) return 'text-amber-400';
     return 'text-green-400';
   };
@@ -173,32 +173,35 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
   return (
     <div
       ref={cardRef}
-      className="relative bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-lg rounded-3xl p-6 border border-amber-500/30 shadow-2xl transition-all duration-500 cursor-pointer perspective-1000 group overflow-hidden"
+      className="relative bg-gradient-to-br from-amber-900/80 via-stone-900/80 to-amber-900/80 backdrop-blur-lg rounded-3xl p-6 border-2 border-amber-600/40 shadow-2xl transition-all duration-500 cursor-pointer perspective-1000 group overflow-hidden"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Wood texture overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,_rgba(101,67,33,0.1)_25%,_transparent_25%,_transparent_75%,_rgba(101,67,33,0.1)_75%,_rgba(101,67,33,0.1)),_linear-gradient(45deg,_rgba(101,67,33,0.1)_25%,_transparent_25%,_transparent_75%,_rgba(101,67,33,0.1)_75%,_rgba(101,67,33,0.1))] bg-[length:8px_8px] bg-[position:0_0,4px_4px] rounded-3xl opacity-20"></div>
+
       {/* Glow effect */}
       <div 
         ref={glowRef}
-        className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-3xl opacity-0 -z-10"
+        className="absolute inset-0 bg-gradient-to-br from-amber-600/30 to-orange-600/30 rounded-3xl opacity-0 -z-10"
       ></div>
 
       {/* Background pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(245,158,11,0.05)_0%,_transparent_70%)] rounded-3xl"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(180,83,9,0.08)_0%,_transparent_70%)] rounded-3xl"></div>
 
       {/* Sparkle effects */}
       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <Sparkles className="card-sparkle w-5 h-5 text-amber-400 animate-pulse" />
       </div>
       <div className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <Star className="card-sparkle w-3 h-3 text-purple-400" />
+        <Star className="card-sparkle w-3 h-3 text-orange-400" />
       </div>
       <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-        <Award className="card-sparkle w-4 h-4 text-cyan-400" />
+        <Award className="card-sparkle w-4 h-4 text-yellow-500" />
       </div>
 
       {/* Image Container */}
-      <div className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-inner">
+      <div className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-amber-800/50 to-stone-800/50 shadow-inner border border-amber-700/30">
         <img
           ref={imageRef}
           src={item.image}
@@ -214,7 +217,7 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
         </div>
         
         <div className="absolute bottom-3 right-3">
-          <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-black">
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-600 text-white border border-amber-500">
             {item.category}
           </span>
         </div>
@@ -222,7 +225,7 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
         {/* Premium indicator for expensive items */}
         {item.price > 5000 && (
           <div className="absolute top-3 right-3">
-            <span className="px-2 py-1 rounded-full text-xs font-black bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+            <span className="px-2 py-1 rounded-full text-xs font-black bg-gradient-to-r from-yellow-600 to-orange-600 text-white border border-yellow-500">
               PREMIUM
             </span>
           </div>
@@ -235,17 +238,17 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
       {/* Content */}
       <div ref={contentRef} className="space-y-4 relative z-10">
         <div className="flex justify-between items-start">
-          <h3 className="text-xl font-bold text-white group-hover:text-amber-300 transition-colors duration-300 leading-tight flex-1">
+          <h3 className="text-xl font-bold text-amber-100 group-hover:text-amber-200 transition-colors duration-300 leading-tight flex-1">
             {item.name}
           </h3>
           {item.brand && (
-            <span className="text-xs text-amber-400 font-medium ml-2 bg-amber-400/10 px-2 py-1 rounded-full">
+            <span className="text-xs text-amber-400 font-medium ml-2 bg-amber-500/20 px-2 py-1 rounded-full border border-amber-500/30">
               {item.brand}
             </span>
           )}
         </div>
         
-        <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">
+        <p className="text-amber-300/80 text-sm line-clamp-2 leading-relaxed">
           {item.description}
         </p>
 
@@ -257,14 +260,14 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
           >
             ₹{item.price.toLocaleString()}
           </div>
-          <div className="text-amber-300 font-semibold bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30">
+          <div className="text-amber-200 font-semibold bg-amber-600/30 px-3 py-1 rounded-full border border-amber-500/40">
             {item.alcoholPercentage}% ABV
           </div>
         </div>
 
         {/* Origin */}
         {item.origin && (
-          <div className="text-gray-500 text-sm flex items-center gap-2">
+          <div className="text-amber-400/70 text-sm flex items-center gap-2">
             <span className="w-2 h-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full"></span>
             Origin: {item.origin}
           </div>
@@ -272,26 +275,26 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
 
         {/* Vintage/Year for premium items */}
         {item.vintage && (
-          <div className="text-purple-400 text-sm flex items-center gap-2">
+          <div className="text-yellow-400 text-sm flex items-center gap-2">
             <Star className="w-3 h-3" />
             Vintage: {item.vintage}
           </div>
         )}
 
         {/* Ingredients */}
-        <div className="pt-4 border-t border-gray-700/50">
-          <p className="text-gray-500 text-xs mb-3 font-medium tracking-wider">KEY INGREDIENTS</p>
+        <div className="pt-4 border-t border-amber-700/40">
+          <p className="text-amber-400/60 text-xs mb-3 font-medium tracking-wider">KEY INGREDIENTS</p>
           <div className="flex flex-wrap gap-2">
             {item.ingredients.slice(0, 3).map((ingredient, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1 text-xs bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 rounded-full border border-amber-500/30 font-medium hover:scale-105 transition-transform duration-200"
+                className="px-3 py-1 text-xs bg-gradient-to-r from-amber-600/30 to-amber-700/30 text-amber-300 rounded-full border border-amber-600/40 font-medium hover:scale-105 transition-transform duration-200"
               >
                 {ingredient}
               </span>
             ))}
             {item.ingredients.length > 3 && (
-              <span className="px-3 py-1 text-xs bg-gray-600/30 text-gray-400 rounded-full border border-gray-600/50 font-medium">
+              <span className="px-3 py-1 text-xs bg-stone-700/40 text-amber-400/60 rounded-full border border-stone-600/40 font-medium">
                 +{item.ingredients.length - 3}
               </span>
             )}

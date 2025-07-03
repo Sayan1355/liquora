@@ -136,14 +136,14 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
       gsap.to(sectionRef.current, {
         scale: 1.02,
         rotateY: 2,
-        boxShadow: "0 40px 100px rgba(245, 158, 11, 0.3)",
+        boxShadow: "0 40px 100px rgba(180, 83, 9, 0.4)",
         duration: 0.8,
         ease: "power2.out"
       });
 
       // Pulsing glow effect
       gsap.to(sectionRef.current, {
-        boxShadow: "0 40px 120px rgba(245, 158, 11, 0.5)",
+        boxShadow: "0 40px 120px rgba(180, 83, 9, 0.6)",
         duration: 2,
         repeat: -1,
         yoyo: true,
@@ -190,23 +190,23 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
     <div 
       ref={sectionRef}
       id={category.toLowerCase()}
-      className={`relative mb-32 overflow-hidden ${isActive ? 'ring-4 ring-amber-400/40 rounded-3xl p-12 bg-gradient-to-br from-amber-900/10 to-orange-900/5' : ''}`}
+      className={`relative mb-32 overflow-hidden ${isActive ? 'ring-4 ring-amber-500/50 rounded-3xl p-12 bg-gradient-to-br from-amber-800/20 via-stone-800/10 to-amber-800/20 backdrop-blur-sm' : ''}`}
     >
-      {/* Background decorative elements */}
+      {/* Background decorative elements - Bar style */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-1 bg-gradient-to-r from-transparent via-amber-500/30 to-transparent"></div>
+        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-amber-600/30 to-orange-600/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-br from-orange-600/30 to-red-600/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-1 bg-gradient-to-r from-transparent via-amber-600/40 to-transparent"></div>
       </div>
 
       <div className="text-center mb-16 relative z-10">
         {/* Decorative elements */}
         <div ref={decorRef} className="flex justify-center items-center gap-8 mb-8">
-          <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
-          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-          <div className="w-1 h-1 bg-amber-300 rounded-full"></div>
-          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+          <div className="w-3 h-3 bg-amber-500 rounded-full shadow-lg shadow-amber-500/50"></div>
+          <div className="w-2 h-2 bg-orange-500 rounded-full shadow-lg shadow-orange-500/50"></div>
+          <div className="w-4 h-4 bg-yellow-600 rounded-full shadow-lg shadow-yellow-600/50"></div>
+          <div className="w-1 h-1 bg-amber-400 rounded-full shadow-lg shadow-amber-400/50"></div>
+          <div className="w-3 h-3 bg-red-600 rounded-full shadow-lg shadow-red-600/50"></div>
         </div>
 
         <h2
@@ -216,27 +216,27 @@ const AlcoholSection: React.FC<AlcoholSectionProps> = ({
           <span className="text-8xl md:text-9xl animate-pulse filter drop-shadow-2xl">
             {getCategoryEmoji(category)}
           </span>
-          <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-300 bg-clip-text text-transparent drop-shadow-2xl">
+          <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400 bg-clip-text text-transparent drop-shadow-2xl">
             {category.toUpperCase()}
           </span>
         </h2>
         
         <div className="flex justify-center items-center gap-4 mb-6">
-          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
-          <div className="w-4 h-4 bg-amber-500 rounded-full animate-spin"></div>
-          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
+          <div className="w-4 h-4 bg-amber-600 rounded-full animate-spin shadow-lg shadow-amber-600/50"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
         </div>
         
         <p className="text-amber-200 text-xl font-light tracking-wider">
-          {filteredData.length} premium varieties | Authentic pricing | Real images
+          {filteredData.length} premium varieties | Authentic pricing | Local store collection
         </p>
       </div>
 
       {filteredData.length === 0 ? (
         <div className="text-center py-32 relative z-10">
           <div className="text-8xl mb-8 animate-bounce">🔍</div>
-          <h3 className="text-4xl font-bold text-white mb-4">No {category} found</h3>
-          <p className="text-amber-400 text-xl">Try adjusting your search criteria</p>
+          <h3 className="text-4xl font-bold text-amber-100 mb-4">No {category} found</h3>
+          <p className="text-amber-400 text-xl">Try browsing our other categories</p>
         </div>
       ) : (
         <div 

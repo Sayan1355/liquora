@@ -80,9 +80,9 @@ const HeroSection: React.FC = () => {
       ease: "none"
     });
 
-    // Pulsing glow effect
+    // Pulsing glow effect - warmer colors
     gsap.to(iconRef.current, {
-      boxShadow: "0 0 60px rgba(245, 158, 11, 0.8), 0 0 120px rgba(245, 158, 11, 0.4)",
+      boxShadow: "0 0 60px rgba(180, 83, 9, 0.8), 0 0 120px rgba(180, 83, 9, 0.4)",
       duration: 3,
       repeat: -1,
       yoyo: true,
@@ -128,19 +128,21 @@ const HeroSection: React.FC = () => {
 
   return (
     <div ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Enhanced background with multiple layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,_rgba(245,158,11,0.15)_0%,_transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,_rgba(168,85,247,0.1)_0%,_transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,_rgba(236,72,153,0.08)_0%,_transparent_50%)]" />
+      {/* Enhanced background with warm bar ambience */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-950 via-stone-900 to-amber-950">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,_rgba(180,83,9,0.25)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,_rgba(139,69,19,0.2)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,_rgba(217,119,6,0.15)_0%,_transparent_50%)]" />
+        {/* Wood grain texture overlay */}
+        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(90deg,_rgba(101,67,33,0.1)_50%,_transparent_50%),_linear-gradient(rgba(139,69,19,0.05)_50%,_transparent_50%)] bg-[length:4px_4px,20px_20px]"></div>
       </div>
 
-      {/* Animated particle system */}
+      {/* Animated particle system - warmer colors */}
       <div ref={particlesRef} className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(25)].map((_, i) => (
           <div
             key={i}
-            className="hero-particle absolute w-1 h-1 bg-amber-400 rounded-full opacity-30"
+            className="hero-particle absolute w-1 h-1 bg-amber-500 rounded-full opacity-40"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -149,23 +151,25 @@ const HeroSection: React.FC = () => {
         ))}
       </div>
 
-      {/* Enhanced floating sparkles */}
+      {/* Enhanced floating sparkles - bar themed */}
       <div className="absolute inset-0 pointer-events-none">
-        <Sparkles className="hero-sparkle absolute top-20 left-20 w-8 h-8 text-amber-400 opacity-40" />
-        <Star className="hero-sparkle absolute top-32 right-24 w-6 h-6 text-purple-400 opacity-50" />
-        <Award className="hero-sparkle absolute top-40 left-40 w-7 h-7 text-cyan-400 opacity-45" />
-        <Crown className="hero-sparkle absolute bottom-40 left-32 w-6 h-6 text-pink-400 opacity-40" />
-        <Sparkles className="hero-sparkle absolute bottom-32 right-28 w-8 h-8 text-orange-400 opacity-35" />
-        <Star className="hero-sparkle absolute bottom-20 right-20 w-7 h-7 text-green-400 opacity-40" />
-        <Award className="hero-sparkle absolute top-60 right-60 w-5 h-5 text-yellow-400 opacity-45" />
+        <Sparkles className="hero-sparkle absolute top-20 left-20 w-8 h-8 text-amber-500 opacity-50" />
+        <Star className="hero-sparkle absolute top-32 right-24 w-6 h-6 text-orange-500 opacity-60" />
+        <Award className="hero-sparkle absolute top-40 left-40 w-7 h-7 text-yellow-600 opacity-55" />
+        <Crown className="hero-sparkle absolute bottom-40 left-32 w-6 h-6 text-amber-600 opacity-50" />
+        <Sparkles className="hero-sparkle absolute bottom-32 right-28 w-8 h-8 text-orange-600 opacity-45" />
+        <Star className="hero-sparkle absolute bottom-20 right-20 w-7 h-7 text-red-600 opacity-50" />
+        <Award className="hero-sparkle absolute top-60 right-60 w-5 h-5 text-yellow-500 opacity-55" />
       </div>
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
         <div ref={iconRef} className="mb-12">
-          <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 shadow-2xl shadow-amber-500/40 relative">
-            <Wine className="w-16 h-16 text-white drop-shadow-2xl" />
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
+          <div className="inline-flex items-center justify-center w-36 h-36 rounded-full bg-gradient-to-br from-amber-600 via-amber-500 to-orange-600 shadow-2xl shadow-amber-600/50 relative border-4 border-amber-400/30">
+            <Wine className="w-18 h-18 text-white drop-shadow-2xl" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-transparent via-white/30 to-transparent animate-pulse"></div>
+            {/* Wood grain effect on icon */}
+            <div className="absolute inset-2 rounded-full bg-gradient-to-br from-amber-700/20 via-transparent to-amber-800/20"></div>
           </div>
         </div>
 
@@ -173,34 +177,34 @@ const HeroSection: React.FC = () => {
           ref={titleRef}
           className="text-8xl md:text-[12rem] font-black mb-8 leading-none tracking-tight"
         >
-          <span className="shimmer-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 bg-[length:200%_100%] bg-clip-text text-transparent drop-shadow-2xl">
+          <span className="shimmer-text bg-gradient-to-r from-amber-400 via-amber-300 to-orange-400 bg-[length:200%_100%] bg-clip-text text-transparent drop-shadow-2xl">
             OAK &
           </span>
           <br />
-          <span className="shimmer-text bg-gradient-to-r from-white via-gray-200 to-white bg-[length:200%_100%] bg-clip-text text-transparent drop-shadow-2xl">
+          <span className="shimmer-text bg-gradient-to-r from-amber-200 via-yellow-200 to-amber-200 bg-[length:200%_100%] bg-clip-text text-transparent drop-shadow-2xl">
             EMBER
           </span>
         </h1>
 
         <p
           ref={subtitleRef}
-          className="text-2xl md:text-3xl text-gray-300 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
+          className="text-2xl md:text-3xl text-amber-200 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
         >
-          Explore our premium collection of over <span className="text-amber-400 font-bold">150+</span> finest alcoholic beverages from around the world
+          Your cozy neighborhood spirits & wine store featuring <span className="text-amber-400 font-bold">150+</span> premium beverages from around the world
         </p>
 
         <div className="flex flex-wrap justify-center gap-6 text-lg">
-          <span className="flex items-center gap-3 bg-gradient-to-r from-green-500/20 to-green-600/20 px-6 py-3 rounded-full border border-green-500/30">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            Authentic Pricing
+          <span className="flex items-center gap-3 bg-gradient-to-r from-amber-800/40 to-amber-700/40 px-8 py-4 rounded-full border-2 border-amber-600/40 backdrop-blur-sm">
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></div>
+            Authentic Collection
           </span>
-          <span className="flex items-center gap-3 bg-gradient-to-r from-blue-500/20 to-blue-600/20 px-6 py-3 rounded-full border border-blue-500/30">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-            Real Images
+          <span className="flex items-center gap-3 bg-gradient-to-r from-orange-800/40 to-orange-700/40 px-8 py-4 rounded-full border-2 border-orange-600/40 backdrop-blur-sm">
+            <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse shadow-lg shadow-amber-500/50"></div>
+            Local Store Feel
           </span>
-          <span className="flex items-center gap-3 bg-gradient-to-r from-purple-500/20 to-purple-600/20 px-6 py-3 rounded-full border border-purple-500/30">
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-            150+ Varieties
+          <span className="flex items-center gap-3 bg-gradient-to-r from-yellow-800/40 to-yellow-700/40 px-8 py-4 rounded-full border-2 border-yellow-600/40 backdrop-blur-sm">
+            <div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/50"></div>
+            Premium Quality
           </span>
         </div>
       </div>
