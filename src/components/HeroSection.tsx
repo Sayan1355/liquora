@@ -89,27 +89,27 @@ const HeroSection: React.FC = () => {
       ease: "power2.inOut"
     });
 
-    // Enhanced floating animation for sparkles
+    // Moderate floating animation for sparkles (reduced intensity)
     gsap.to(".hero-sparkle", {
-      y: "random(-30, 30)",
-      x: "random(-20, 20)",
-      rotation: "random(-30, 30)",
-      scale: "random(0.8, 1.5)",
-      duration: "random(4, 8)",
+      y: "random(-15, 15)",
+      x: "random(-10, 10)",
+      rotation: "random(-15, 15)",
+      scale: "random(0.9, 1.2)",
+      duration: "random(5, 10)",
       repeat: -1,
       yoyo: true,
       ease: "power2.inOut",
       stagger: 0.3
     });
 
-    // Particle system animation
+    // Particle system animation (reduced intensity)
     gsap.to(".hero-particle", {
-      y: "random(-100, 100)",
-      x: "random(-50, 50)",
-      rotation: "random(-180, 180)",
-      scale: "random(0.5, 2)",
-      opacity: "random(0.3, 0.8)",
-      duration: "random(6, 12)",
+      y: "random(-50, 50)",
+      x: "random(-25, 25)",
+      rotation: "random(-90, 90)",
+      scale: "random(0.7, 1.3)",
+      opacity: "random(0.3, 0.6)",
+      duration: "random(8, 15)",
       repeat: -1,
       yoyo: true,
       ease: "power1.inOut",
@@ -174,11 +174,11 @@ const HeroSection: React.FC = () => {
           className="text-8xl md:text-[12rem] font-black mb-8 leading-none tracking-tight"
         >
           <span className="shimmer-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 bg-[length:200%_100%] bg-clip-text text-transparent drop-shadow-2xl">
-            SPIRITS
+            OAK &
           </span>
           <br />
           <span className="shimmer-text bg-gradient-to-r from-white via-gray-200 to-white bg-[length:200%_100%] bg-clip-text text-transparent drop-shadow-2xl">
-            CATALOG
+            EMBER
           </span>
         </h1>
 

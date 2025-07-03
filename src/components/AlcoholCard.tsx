@@ -45,11 +45,11 @@ const AlcoholCard: React.FC<AlcoholCardProps> = ({ item, index, categoryIndex })
       }
     );
 
-    // Floating animation
+    // Moderate floating animation (reduced intensity)
     gsap.to(cardRef.current, {
-      y: "random(-5, 5)",
-      rotation: "random(-1, 1)",
-      duration: "random(3, 5)",
+      y: "random(-2, 2)",
+      rotation: "random(-0.5, 0.5)",
+      duration: "random(4, 6)",
       repeat: -1,
       yoyo: true,
       ease: "power2.inOut",

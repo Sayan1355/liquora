@@ -110,14 +110,14 @@ const Index = () => {
           <div className="flex items-center justify-center gap-2 mb-4">
             <Wine className="w-8 h-8 text-amber-500" />
             <h3 className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
-              Premium Spirits Catalog
+              Oak & Ember
             </h3>
           </div>
           <p className="text-gray-400 text-lg">
             Discover the world's finest alcoholic beverages
           </p>
           <p className="text-gray-500 mt-4">
-            © 2024 Premium Spirits. Drink Responsibly. Must be 21+ to purchase.
+            © 2024 Oak & Ember. Drink Responsibly. Must be 21+ to purchase.
           </p>
         </div>
       </footer>
