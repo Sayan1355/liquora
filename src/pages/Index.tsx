@@ -2,134 +2,122 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { alcoholData, AlcoholItem } from '../data/alcoholData';
-import SearchBar from '../components/SearchBar';
-import CategoryFilter from '../components/CategoryFilter';
-import AlcoholCard from '../components/AlcoholCard';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { Search, Wine, Sparkles } from 'lucide-react';
+import { alcoholData, categories } from '../data/alcoholData';
+import AlcoholSection from '../components/AlcoholSection';
+import HeroSection from '../components/HeroSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [filteredData, setFilteredData] = useState<AlcoholItem[]>(alcoholData);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const heroRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const [activeSection, setActiveSection] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Hero animations
-    const tl = gsap.timeline();
-    
-    tl.fromTo(
-      titleRef.current,
-      { opacity: 0, y: 100, scale: 0.8 },
-      { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out" }
-    )
-    .fromTo(
-      subtitleRef.current,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-      "-=0.6"
-    );
+    // Animate search bar on mount
+    if (searchRef.current) {
+      gsap.fromTo(
+        searchRef.current,
+        { opacity: 0, y: -50, scale: 0.8 },
+        { opacity: 1, y: 0, scale: 1, duration: 1, ease: "back.out(1.7)" }
+      );
+    }
 
-    // Background animation
-    gsap.to(".bg-gradient", {
-      backgroundPosition: "200% 200%",
-      duration: 20,
+    // Floating animation for background elements
+    gsap.to(".floating-element", {
+      y: "20px",
+      duration: 2,
       repeat: -1,
       yoyo: true,
-      ease: "none"
+      ease: "power2.inOut",
+      stagger: 0.2
     });
 
   }, []);
 
-  useEffect(() => {
-    setIsLoading(true);
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
     
-    // Simulate loading delay for smooth animations
-    const timer = setTimeout(() => {
-      const filtered = alcoholData.filter((item) => {
-        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            item.ingredients.some(ing => ing.toLowerCase().includes(searchTerm.toLowerCase()));
-        
-        const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-        
-        return matchesSearch && matchesCategory;
-      });
-      
-      setFilteredData(filtered);
-      setIsLoading(false);
-    }, 300);
+    // If search matches a category, scroll to that section
+    const matchedCategory = categories.find(cat => 
+      cat.toLowerCase().includes(term.toLowerCase()) && cat !== 'All'
+    );
+    
+    if (matchedCategory && term.length > 2) {
+      setActiveSection(matchedCategory);
+      const element = document.getElementById(matchedCategory.toLowerCase());
+      if (element) {
+        gsap.to(window, {
+          duration: 1.5,
+          scrollTo: { y: element, offsetY: 100 },
+          ease: "power2.inOut"
+        });
+      }
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, [searchTerm, selectedCategory]);
+  const filteredCategories = categories.filter(cat => cat !== 'All');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800 bg-gradient">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      {/* Floating Background Elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="floating-element absolute top-20 left-10 w-2 h-2 bg-amber-500 rounded-full opacity-30"></div>
+        <div className="floating-element absolute top-40 right-20 w-3 h-3 bg-purple-500 rounded-full opacity-20"></div>
+        <div className="floating-element absolute bottom-40 left-20 w-4 h-4 bg-cyan-500 rounded-full opacity-25"></div>
+        <div className="floating-element absolute bottom-20 right-10 w-2 h-2 bg-pink-500 rounded-full opacity-30"></div>
+      </div>
+
       {/* Hero Section */}
-      <div ref={heroRef} className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-purple-500/10 animate-pulse" />
-        
-        <div className="relative z-10 container mx-auto px-4 py-20 text-center">
-          <h1
-            ref={titleRef}
-            className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200 bg-clip-text text-transparent mb-6 leading-tight"
-          >
-            Premium Spirits
-          </h1>
-          <p
-            ref={subtitleRef}
-            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
-          >
-            Discover the world's finest collection of alcoholic beverages. From vintage wines to premium spirits, explore over 100+ varieties with authentic pricing and detailed information.
-          </p>
+      <HeroSection />
+
+      {/* Search Section */}
+      <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-lg border-b border-amber-500/20 py-6">
+        <div className="container mx-auto px-4">
+          <div className="relative max-w-2xl mx-auto">
+            <input
+              ref={searchRef}
+              type="text"
+              placeholder="Search alcohol types (e.g., Wine, Whiskey, Vodka...)"
+              value={searchTerm}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="w-full px-6 py-4 pl-14 bg-gray-900/50 backdrop-blur-sm border-2 border-amber-500/30 rounded-full text-white placeholder-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-300 text-lg"
+            />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-400 w-6 h-6" />
+            <Sparkles className="absolute right-4 top-1/2 transform -translate-y-1/2 text-amber-400 w-6 h-6 animate-pulse" />
+          </div>
         </div>
       </div>
 
-      {/* Search and Filter Section */}
-      <div className="container mx-auto px-4 pb-12">
-        <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-        <CategoryFilter selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} />
-      </div>
-
-      {/* Results Section */}
-      <div className="container mx-auto px-4 pb-20">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">
-            {selectedCategory === 'All' ? 'All Spirits' : selectedCategory}
-          </h2>
-          <p className="text-gray-400">
-            {filteredData.length} product{filteredData.length !== 1 ? 's' : ''} found
-          </p>
-        </div>
-
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : filteredData.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="text-6xl mb-4">🍷</div>
-            <h3 className="text-2xl font-bold text-white mb-2">No results found</h3>
-            <p className="text-gray-400">Try adjusting your search or filter criteria</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {filteredData.map((item, index) => (
-              <AlcoholCard key={item.id} item={item} index={index} />
-            ))}
-          </div>
-        )}
+      {/* Main Content */}
+      <div ref={containerRef} className="container mx-auto px-4 py-12">
+        {filteredCategories.map((category, index) => (
+          <AlcoholSection
+            key={category}
+            category={category}
+            searchTerm={searchTerm}
+            isActive={activeSection === category}
+            index={index}
+          />
+        ))}
       </div>
 
       {/* Footer */}
-      <footer className="bg-black/30 backdrop-blur-sm border-t border-amber-500/20 py-8">
+      <footer className="bg-gray-950 border-t border-amber-500/20 py-12">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            © 2024 Premium Spirits Collection. Drink Responsibly. Must be 21+ to purchase.
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Wine className="w-8 h-8 text-amber-500" />
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+              Premium Spirits Catalog
+            </h3>
+          </div>
+          <p className="text-gray-400 text-lg">
+            Discover the world's finest alcoholic beverages
+          </p>
+          <p className="text-gray-500 mt-4">
+            © 2024 Premium Spirits. Drink Responsibly. Must be 21+ to purchase.
           </p>
         </div>
       </footer>
